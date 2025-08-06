@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Astrology by Date of Birth</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #f5e6ff, #fff);
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #6a11cb;
+      margin-bottom: 10px;
+    }
+    input, button {
+      padding: 0.6rem;
+      margin: 1rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background-color: #6a11cb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      border-radius: 10px;
+      background-color: #f0f8ff;
+      max-width: 450px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .result img {
+      width: 100px;
+      margin-bottom: 1rem;
+    }
+    .zodiac-name {
+      font-size: 1.5rem;
+      color: #444;
+    }
+    .horoscope {
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔮 Find Your Zodiac Sign</h1>
+  <p>Enter your Date of Birth:</p>
+  <input type="date" id="dob" />
+  <button onclick="getZodiac()">Check Astrology</button>
+
+  <div class="result" id="result" style="display: none;"></div>
+
+  <script>
+    const zodiacData = [
+      { sign: "Capricorn ♑", from: "12-22", to: "01-19", info: "Disciplined and ambitious.", image: "cap.jpg", horoscope: "Work hard today, your effort will be noticed." },
+      { sign: "Aquarius ♒", from: "01-20", to: "02-18", info: "Innovative and unique.", image: "aqua.jpg", horoscope: "Ideas will flow easily. Time to create!" },
+      { sign: "Pisces ♓", from: "02-19", to: "03-20", info: "Empathetic and artistic.", image: "pie.jpg", horoscope: "Let your emotions guide your art." },
+      { sign: "Aries ♈", from: "03-21", to: "04-19", info: "Energetic and bold.", image: "arie.jpg", horoscope: "Be brave and take the first step." },
+      { sign: "Taurus ♉", from: "04-20", to: "05-20", info: "Reliable and patient.", image: "tau.jpg", horoscope: "Stability brings you peace today." },
+      { sign: "Gemini ♊", from: "05-21", to: "06-20", info: "Curious and witty.", image: "gem.jpg", horoscope: "Conversations today bring new ideas." },
+      { sign: "Cancer ♋", from: "06-21", to: "07-22", info:"Emotional and loyal.", image: "can.jpg", horoscope: "Take time to reconnect with loved ones." },
+      { sign: "Leo ♌", from: "07-23", to: "08-22", info: "Confident and proud.", image: "leo.jpg", horoscope: "Lead with your heart, not just your voice." },
+      { sign: "Virgo ♍", from: "08-23", to: "09-22", info: "Analytical and kind.", image: "virg.jpg", horoscope: "Pay attention to the details—they matter." },
+      { sign: "Libra ♎", from: "09-23", to: "10-22", info: "Charming and fair.", image: "lib.jpg", horoscope: "Balance work and relaxation today." },
+      { sign: "Scorpio ♏", from: "10-23", to: "11-21", info: "Passionate and brave.", image: "sco.jpg", horoscope: "Speak your truth. It’s powerful." },
+      { sign: "Sagittarius ♐", from: "11-22", to: "12-21", info: "Adventurous and wise.", image: "sagt.jpg", horoscope: "Seek knowledge, not approval." }
+    ];
+
+    function getZodiac() {
+      const dob = document.getElementById("dob").value;
+      if (!dob) {
+        alert("Please enter your date of birth.");
+        return;
+      }
+
+      const date = new Date(dob);
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const mmdd = `${month}-${day}`;
+
+      let zodiac = null;
+
+      for (let z of zodiacData) {
+        if (
+          (z.from <= z.to && mmdd >= z.from && mmdd <= z.to) ||
+          (z.from > z.to && (mmdd >= z.from || mmdd <= z.to))
+        ) {
+          zodiac = z;
+          break;
+        }
+      }
+
+      const result = document.getElementById("result");
+      if (zodiac) {
+        result.innerHTML = `
+          <img src="${zodiac.image}" alt="${zodiac.sign}">
+          <div class="zodiac-name">${zodiac.sign}</div>
+          <p>${zodiac.info}</p>
+          <p class="horoscope">✨ ${zodiac.horoscope}</p>
+        `;
+        result.style.display = "block";
+      } else {
+        result.innerHTML = "Zodiac not found.";
+        result.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
